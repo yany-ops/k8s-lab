@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio
+  namespace: argo-cd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/yany-ops/k8s-lab.git
+    targetRevision: main
+    path: kubernetes/charts/istio
+  destination:
+    namespace: istio-system
+    server: https://kubernetes.default.svc

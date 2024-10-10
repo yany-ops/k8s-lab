@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-cd
+  namespace: argo-cd
+spec:
+  project: default
+  sources:
+  - repoURL: https://argoproj.github.io/argo-helm
+    chart: argo-cd
+    targetRevision: argo-cd-7.6.8
+    helm:
+      valueFiles:
+      - $REPO/charts/argo-cd/values.yaml
+  - repoURL: https://github.com/yany-ops/k8s-lab.git
+    targetRevision: main
+    ref: REPO
+    path: kubernetes/charts/argo-cd/patches
+  destination:
+    namespace: argo-cd
+    server: https://kubernetes.default.svc

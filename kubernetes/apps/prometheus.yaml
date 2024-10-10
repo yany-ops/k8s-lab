@@ -17,7 +17,7 @@ spec:
     ref: REPO
     path: kubernetes/charts/prometheus/patches
   destination:
-    namespace: istio-system
+    namespace: prometheus
     server: https://kubernetes.default.svc
 
   syncPolicy:

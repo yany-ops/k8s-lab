@@ -1,0 +1,60 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: prometheus-cert
+  namespace: istio-system # istio 설치경로
+spec:
+  secretName: prometheus-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  commonName: prometheus.ops.cluster.yanychoi.com
+  dnsNames:
+  - prometheus.ops.cluster.yanychoi.com
+---
+#Gateway
+kind: Gateway
+apiVersion: networking.istio.io/v1beta1
+metadata:
+  name: prometheus-gw
+  namespace: istio-system
+spec:
+  servers:
+    - hosts:
+        - prometheus.ops.cluster.yanychoi.com
+      port:
+        name: https
+        number: 443
+        protocol: HTTPS
+      tls:
+        credentialName: prometheus-tls
+        mode: SIMPLE
+    - hosts:
+        - prometheus.ops.cluster.yanychoi.com
+      port:
+        name: http
+        number: 80
+        protocol: HTTP
+  selector:
+    app: istio-ingressgateway
+---
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: prometheus-vs
+  namespace: prometheus
+spec:
+  hosts:
+  - prometheus.ops.cluster.yanychoi.com
+  gateways:
+  - istio-system/prometheus-gw
+  - mesh
+  http:
+  - match:
+    - uri:
+        prefix: /
+    route:
+    - destination:
+        port:
+          number: 9000
+        host: prometheus-server

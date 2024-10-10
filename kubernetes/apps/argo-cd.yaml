@@ -6,16 +6,16 @@ metadata:
 spec:
   project: default
   sources:
+  - repoURL: https://github.com/yany-ops/k8s-lab.git
+    targetRevision: main
+    ref: REPO
+    path: kubernetes/charts/argo-cd/patches
   - repoURL: https://argoproj.github.io/argo-helm
     chart: argo-cd
     targetRevision: "7.6.8"
     helm:
       valueFiles:
       - $REPO/charts/argo-cd/values.yaml
-  - repoURL: https://github.com/yany-ops/k8s-lab.git
-    targetRevision: main
-    ref: REPO
-    path: kubernetes/charts/argo-cd/patches
   destination:
     namespace: argo-cd
     server: https://kubernetes.default.svc

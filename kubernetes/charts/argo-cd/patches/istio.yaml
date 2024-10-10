@@ -47,7 +47,7 @@ spec:
   hosts:
   - argo-cd.ops.cluster.yanychoi.com
   gateways:
-  - argo-cd-gw
+  - istio-system/argo-cd-gw
   - mesh
   http:
   - match:

@@ -20,14 +20,13 @@ apiVersion: networking.istio.io/v1alpha3
 kind: ServiceEntry
 metadata:
   name: pods-metrics
-  namespace: prometheus
 spec:
   hosts:
   - "*.local"
   addresses:
   - "172.16.0.0/17"
   ports:
-  - number: 80
+  - number: 15020
     name: http
     protocol: HTTP
   resolution: NONE

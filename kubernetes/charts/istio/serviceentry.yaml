@@ -16,3 +16,19 @@ spec:
   resolution: DNS
   location: MESH_EXTERNAL
 ---
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: pods-metrics
+spec:
+  hosts:
+  - "*.local"
+  addresses:
+  - "172.16.0.0/17"
+  ports:
+  - number: 80
+    name: http
+    protocol: HTTP
+  resolution: NONE
+  location: MESH_INTERNAL
+---
